@@ -1,0 +1,19 @@
+@import "../../styles/base.styl"
+
+.vl-card
+    display inline-block
+    transition all .3s
+
+.vl-card-border
+    border 1px solid $color-border
+
+.vl-card-header, .vl-card-body
+    padding $vl-padding-md
+
+.vl-card-header
+    border-bottom 1px solid $color-border
+    font-weight bold
+    font-size $font-size-title
+
+.vl-card-hover:hover
+    box-shadow 0 2px 8px rgba(0,0,0,.09)

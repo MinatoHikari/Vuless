@@ -1,5 +1,5 @@
 <template>
-    <button :class="[viewClasses]" :type="type" class="sd-button" @click="onClick">
+    <button :class="viewClasses" :type="type" class="vl-button" @click="onClick">
         <span>
             <slot></slot>
         </span>
@@ -10,7 +10,7 @@
 import { defineComponent, computed, reactive } from 'vue';
 
 export default defineComponent({
-    name: "sd-button",
+    name: "vl-button",
     props: {
         shape: String,
         disabled: Boolean,
@@ -22,35 +22,13 @@ export default defineComponent({
 
         const ComputedClass = computed(() => {
             let result: string[] = []
-            switch (props.shape) {
-                case 'round': {
-                    result.push('sd-button-round')
-                    break
-                }
-                case 'circle': {
-                    result.push('sd-button-circle')
-                    break
-                }
-                case 'outline': {
-                    result.push('sd-button-outline')
-                    break
-                }
-                case 'link': {
-                    result.push('sd-button-link')
-                    break
-                }
-            }
+            result.push(`vl-button-${props.shape}`)
 
             console.log(props.disabled)
             if (props.disabled) {
-                result.push('sd-button-disabled')
+                result.push('vl-button-disabled')
             } else {
-                switch (props.color) {
-                    case 'primary': {
-                        result.push('sd-button-primary')
-                        break
-                    }
-                }
+                result.push(`vl-button-${props.color}`)
             }
             return result
         })
@@ -61,7 +39,7 @@ export default defineComponent({
             if (props.disabled || props.shape === "link") {
                 return
             }
-            viewClasses.push('sd-button-active')
+            viewClasses.push('vl-button-active')
             const index = viewClasses.length - 1
             setTimeout(() => {
                 viewClasses.splice(index, 1)

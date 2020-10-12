@@ -1,7 +1,8 @@
+@import "../../styles/base.styl"
+
 $background-color-default = #efefef
-$color-default = rgba(0, 0, 0, .65)
-$color-primary = #41b883
-.sd-button
+
+.vl-button
     border 0
     outline none
     padding 5px 15px
@@ -15,37 +16,37 @@ $color-primary = #41b883
         background-color rgb(177 177 177)
         color #ffffff
 
-.sd-button-active {
+.vl-button-active {
     box-shadow 0 0 5px 2px rgba(197, 197, 197, 0.5)
 }
 
-.sd-button-disabled
+.vl-button-disabled
     cursor not-allowed
-    //pointer-events: none;
     opacity 0.6
 
     &:hover
         background-color $background-color-default
         color $color-default
 
-.sd-button-primary
-    color white
-    background-color $color-primary
-
-    &:hover
-        background-color $color-primary
-        opacity 0.7
-
-.sd-button-round
+.vl-button-round
     border-radius 1.5rem
 
-.sd-button-circle
+.vl-button-circle
     border-radius 50%
     padding 0
     width 30px
     height 30px
 
-.sd-button-outline
+for color in $colors
+    .vl-button-{color}
+        color white
+        background-color getColor(color)
+
+        &:hover
+            background-color getColor(color)
+            opacity 0.7
+
+.vl-button-outline
     border 1px solid $color-default
     background-color transparent
 
@@ -54,14 +55,15 @@ $color-primary = #41b883
         border 1px solid $color-primary
         color $color-primary
 
-.sd-button-outline.sd-button-primary
-    border 1px solid $color-primary
-    color $color-primary
-
-.sd-button-outline.sd-button-active
+.vl-button-outline.vl-button-active
     box-shadow 0 0 5px 2px rgba(197, 197, 197, 0.3)
 
-.sd-button-link
+for color in $colors
+    .vl-button-outline.vl-button-{color}
+        border 1px solid getColor(color)
+        color getColor(color)
+
+.vl-button-link
     background-color transparent
     padding 5px 10px
 
@@ -69,9 +71,10 @@ $color-primary = #41b883
         background-color transparent
         color $color-primary
 
-.sd-button-link.sd-button-primary
-    color $color-primary
+for color in $colors
+    .vl-button-link.vl-button-{color}
+        color getColor(color)
 
-.sd-button-link.sd-button-disabled
+.vl-button-link.vl-button-disabled
     &:hover
         color $color-default
