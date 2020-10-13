@@ -18,13 +18,10 @@ export default defineComponent({
         type: String
     },
     setup(props) {
-        console.log(props)
-
         const ComputedClass = computed(() => {
             let result: string[] = []
             result.push(`vl-button-${props.shape}`)
 
-            console.log(props.disabled)
             if (props.disabled) {
                 result.push('vl-button-disabled')
             } else {

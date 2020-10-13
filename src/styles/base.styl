@@ -1,14 +1,17 @@
 $color-default = rgba(0, 0, 0, 0.65)
 $color-primary = #41b883
 $color-flamingo = #ff5722
+$color-bismark = #557280
 $color-border = rgba(0, 0, 0, 0.12)
 
 $font-size-title = 18px
-$vl-padding-md = 20px
+$font-size-sm = 12px
+$vl-padding-md = 15px
+$vl-margin-md = 10px
 
 $colors = primary flamingo
-getColor(color)
+getColor(color, amount = 0)
     if color == primary
-        return $color-primary
+        return lighten($color-primary, amount)
     else if color == flamingo
-        return $color-flamingo
+        return lighten($color-flamingo, amount)

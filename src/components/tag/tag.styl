@@ -1,0 +1,20 @@
+@import "../../styles/base.styl"
+
+.vl-tag
+    display inline-block
+    font-size $font-size-sm
+    border 1px solid $color-border
+    background-color #ddddde
+    color $color-default
+    padding 3px 7px
+    border-radius 3px
+    cursor default
+    transtion all .3s
+    &:hover
+        opacity .9
+
+for color in $colors
+    .vl-tag-{color}
+        color saturate(getColor(color),-10)
+        border-color  getColor(color,20)
+        background-color getColor(color,38)

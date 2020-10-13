@@ -11,7 +11,8 @@
             <slot></slot>
         </div>
         <div class="vl-card-actions">
-            <slot name="actions"></slot>
+            <slot name="actions">
+            </slot>
         </div>
     </div>
 </template>
@@ -29,9 +30,9 @@ export default defineComponent({
             type: Boolean,
             default: true
         },
-        hoverable: {
-            type: Boolean,
-            default: false
+        shadow: {
+            type: String,
+            default: 'never'
         }
     },
     setup(props, { slots }) {
@@ -44,14 +45,15 @@ export default defineComponent({
 
         const cardContainerClass = reactive({
             'vl-card-border': props.showBorder,
-            'vl-card-hover': props.hoverable
+            'vl-card-hover': props.shadow === 'hover',
+            'vl-card-shadow': props.shadow === 'always'
         })
 
         return {
             cardContainerClass,
             showHeader
         }
-    }
+    },
 })
 </script>
 

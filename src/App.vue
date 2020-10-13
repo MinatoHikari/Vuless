@@ -32,19 +32,25 @@
             <div>card content</div>
             <div>card content</div>
         </vl-card>
-        <vl-card style="margin-right: 10px" hoverable :header-class="['test3','test4']" :body-class="['test1','test2']" title="card title">
+        <vl-card style="margin-right: 10px" shadow="hover" :header-class="['test3','test4']" :body-class="['test1','test2']" title="card title">
             <div>card content</div>
             <div>card content</div>
             <div>card content</div>
         </vl-card>
-        <vl-card style="margin-right: 10px" hoverable :header-class="['test3','test4']" :body-class="['test1','test2']" title="card title">
-            <div>card content</div>
+        <vl-card style="margin-right: 10px" shadow="always" :header-class="['test3','test4']" :body-class="['test1','test2']" title="card title">
+            <p>card content</p>
             <vl-card title="card title">
                 <div>card content</div>
                 <div>card content</div>
                 <div>card content</div>
             </vl-card>
         </vl-card>
+    </div>
+
+    <div>
+        <vl-tag style="margin-right: 10px">bilibili</vl-tag>
+        <vl-tag style="margin-right: 10px" color="primary">bilibili</vl-tag>
+        <vl-tag color="flamingo">bilibili</vl-tag>
     </div>
 
 </template>
@@ -66,5 +72,7 @@ export default defineComponent({
 });
 </script>
 
-<style>
+<style lang="stylus">
+    #app
+        padding 0 100px
 </style>

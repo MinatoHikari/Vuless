@@ -14,6 +14,7 @@
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^2.33.0",
     "@typescript-eslint/parser": "^2.33.0",
+    "@vue/babel-plugin-jsx": "^1.0.0-rc.3",
     "@vue/cli-plugin-babel": "~4.5.0",
     "@vue/cli-plugin-eslint": "~4.5.0",
     "@vue/cli-plugin-typescript": "^4.5.7",
@@ -27,7 +28,7 @@
     "stylus": "^0.54.8",
     "stylus-loader": "^3.0.2",
     "typescript": "~3.9.3",
-    "vue-loader-v16": "^16.0.0-beta.5.4"
+    "vue-loader": "^16.0.0-beta.8"
   },
   "eslintConfig": {
     "root": true,
