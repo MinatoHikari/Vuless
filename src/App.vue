@@ -26,18 +26,23 @@
         </vl-card>
         <vl-card style="margin-right: 10px">
             <template v-slot:header>
-              card title
+                card title
             </template>
             <div>card content</div>
             <div>card content</div>
             <div>card content</div>
+            <template #actions>
+                <div>action of card</div>
+            </template>
         </vl-card>
-        <vl-card style="margin-right: 10px" shadow="hover" :header-class="['test3','test4']" :body-class="['test1','test2']" title="card title">
+        <vl-card style="margin-right: 10px" shadow="hover" :header-class="['test3','test4']"
+                 :body-class="['test1','test2']" title="card title">
             <div>card content</div>
             <div>card content</div>
             <div>card content</div>
         </vl-card>
-        <vl-card style="margin-right: 10px" shadow="always" :header-class="['test3','test4']" :body-class="['test1','test2']" title="card title">
+        <vl-card style="margin-right: 10px" shadow="always" :header-class="['test3','test4']"
+                 :body-class="['test1','test2']" title="card title">
             <p>card content</p>
             <vl-card title="card title">
                 <div>card content</div>
@@ -49,8 +54,37 @@
 
     <div>
         <vl-tag style="margin-right: 10px">bilibili</vl-tag>
-        <vl-tag style="margin-right: 10px" color="primary">bilibili</vl-tag>
-        <vl-tag color="flamingo">bilibili</vl-tag>
+        <vl-tag style="margin-right: 10px" color="primary">测试</vl-tag>
+        <vl-tag style="margin-right: 10px" color="flamingo">
+            <span>bilibili</span><span>bilibili</span><span>bilibili</span></vl-tag>
+        <vl-tag style="margin-right: 10px" type="hollow"><span>bilibili</span></vl-tag>
+        <vl-tag style="margin-right: 10px" type="hollow" color="flamingo"><span>bilibili</span></vl-tag>
+        <vl-tag style="margin-right: 10px" type="hollow" color="primary"><span>bilibili</span></vl-tag>
+    </div>
+
+    <div style="margin-top: 20px">
+        <vl-list>
+            <vl-list-item>
+                list item description
+            </vl-list-item>
+            <vl-list-item>
+                <template #title>
+                    list item title
+                </template>
+                list item description
+            </vl-list-item>
+            <vl-list-item>
+                <template #title>
+                    list item title
+                </template>
+                list item description
+                <template #extra>
+                    list item extra
+                </template>
+            </vl-list-item>
+            <vl-list-item>
+            </vl-list-item>
+        </vl-list>
     </div>
 
 </template>
@@ -73,6 +107,6 @@ export default defineComponent({
 </script>
 
 <style lang="stylus">
-    #app
-        padding 0 100px
+#app
+    padding 0 100px
 </style>

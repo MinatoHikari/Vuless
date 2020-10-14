@@ -1,12 +1,14 @@
 <script lang="tsx">
 import { defineComponent, computed } from 'vue';
+import getSlot from "@/utils/getSlot";
 
 export default defineComponent({
     name: 'vl-tag',
     props: {
-        color: String
+        color: String,
+        type: String
     },
-    setup(props,{slots}) {
+    setup(props, { slots }) {
         console.log(props)
 
         const classes = computed(() => {
@@ -15,17 +17,20 @@ export default defineComponent({
             if (props.color) {
                 result.push(`vl-tag-${props.color}`)
             }
+            if (props.type) {
+                result.push(`vl-tag-${props.type}`)
+            }
             return result
         })
 
         return () => (
             <div class={classes.value}>
-                <span>{slots.default ? slots.default() : ''}</span>
+                <span>{getSlot(slots)}</span>
             </div>
         )
     }
 })
 </script>
 
-<style lang="stylus" src="./tag.styl" />
+<style lang="stylus" src="./tag.styl"/>
 

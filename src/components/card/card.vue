@@ -10,7 +10,7 @@
         <div :class="bodyClass" class="vl-card-body">
             <slot></slot>
         </div>
-        <div class="vl-card-actions">
+        <div v-if="showActions" :class="actionClass" class="vl-card-actions">
             <slot name="actions">
             </slot>
         </div>
@@ -26,6 +26,7 @@ export default defineComponent({
         title: String,
         bodyClass: Array,
         headerClass: Array,
+        actionClass: Array,
         showBorder: {
             type: Boolean,
             default: true
@@ -37,10 +38,14 @@ export default defineComponent({
     },
     setup(props, { slots }) {
         console.log(props.bodyClass)
-        console.log(slots)
+        console.log(slots.default ? slots.default() : '')
 
         const showHeader = computed(() => {
             return 'header' in slots || props.title
+        })
+
+        const showActions = computed(() => {
+            return 'actions' in slots
         })
 
         const cardContainerClass = reactive({
@@ -51,7 +56,8 @@ export default defineComponent({
 
         return {
             cardContainerClass,
-            showHeader
+            showHeader,
+            showActions
         }
     },
 })
