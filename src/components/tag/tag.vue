@@ -9,7 +9,7 @@ export default defineComponent({
         type: String
     },
     setup(props, { slots }) {
-        console.log(props)
+        // console.log(props)
         
         const classes = computed(() => {
             const result: string[] = []

@@ -6,24 +6,26 @@ interface TeleportElementPosition {
     height: number
 }
 
-export const useTeleportElementPosition: (trigger: ComponentPublicInstance, el: HTMLElement) => TeleportElementPosition
+export const useTeleportElementPosition: (trigger: HTMLElement, el: HTMLElement) => TeleportElementPosition
     = (trigger, el) => {
 
     let top: number, left: number, height: number = 0;
 
     const scrollTop = document.documentElement.scrollTop;
     const scrollLeft = document.documentElement.scrollLeft;
-    const triggerHeight = trigger.$el.clientHeight;
-    // const triggerWidth = trigger.$el.clientWidth;
+    const triggerHeight = trigger.offsetHeight;
+    const triggerWidth = trigger.offsetWidth;
     let dropDownHeight: number = 0, dropDownWidth: number = 0;
     let triggerX: number = 0, triggerY: number = 0;
     // let dropDownX: number = 0, dropDownY: number = 0;
     if (el) {
-        dropDownHeight = el.clientHeight;
-        dropDownWidth = el.clientWidth;
-        // console.log(trigger.$el.getBoundingClientRect());
+        dropDownHeight = el.offsetHeight;
+        dropDownWidth = el.offsetWidth;
+        console.log(window.getComputedStyle(trigger).border);
+
+        // console.log(trigger.getBoundingClientRect());
         // console.log(el.getBoundingClientRect());
-        const { x, y } = trigger.$el.getBoundingClientRect();
+        const { x, y } = trigger.getBoundingClientRect();
         const { x: dx, y: dy } = el.getBoundingClientRect();
         triggerX = x;
         triggerY = y;

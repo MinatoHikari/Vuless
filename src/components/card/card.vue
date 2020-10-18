@@ -37,8 +37,8 @@ export default defineComponent({
         }
     },
     setup(props, { slots }) {
-        console.log(props.bodyClass)
-        console.log(slots.default ? slots.default() : '')
+        // console.log(props.bodyClass)
+        // console.log(slots.default ? slots.default() : '')
 
         const showHeader = computed(() => {
             return 'header' in slots || props.title

@@ -19,7 +19,8 @@ import {
     onMounted,
     nextTick,
     ComponentPublicInstance,
-    PropType
+    PropType,
+    Teleport,
 } from "vue";
 import { useTeleportElementPosition } from "@/utils/useTeleportElementOffset";
 
@@ -31,7 +32,7 @@ interface DefaultStyle {
 }
 
 interface Data {
-    parent: null | ComponentPublicInstance
+    parent: null | HTMLElement
 }
 
 export default defineComponent({
@@ -46,7 +47,7 @@ export default defineComponent({
             parent: null
         } as Data;
     },
-    setup(props, context) {
+    setup(props) {
 
         const defaultStyle = reactive({
             opacity: 0,
@@ -59,7 +60,7 @@ export default defineComponent({
 
         const vlDropdown = ref();
 
-        const setOffsetTop = async (trigger: ComponentPublicInstance, dropdown: HTMLElement) => {
+        const setOffsetTop = async (trigger: HTMLElement, dropdown: HTMLElement) => {
             const { top, left, height } = useTeleportElementPosition(trigger, dropdown);
             // const { top, left, height } = useTeleportElementPosition(trigger, vlDropdown.value as HTMLElement);
             defaultStyle.top = `${top}px`;
@@ -69,7 +70,7 @@ export default defineComponent({
             }
         };
 
-        const showEl = (trigger: ComponentPublicInstance, dropdown?: HTMLElement) => {
+        const showEl = (trigger: HTMLElement, dropdown?: HTMLElement) => {
             isShow.value = true;
             nextTick(() => {
                 let dropdownEl = dropdown ? dropdown : vlDropdown.value;
@@ -86,8 +87,12 @@ export default defineComponent({
             }, 500);
         };
 
-        const documentEvent = (paramTrigger: ComponentPublicInstance | null, e: MouseEvent,) => {
-            let defaultTriggerEl = trigger ? trigger.value : false;
+        const documentEvent = (paramTrigger: HTMLElement | null, e: MouseEvent,) => {
+            let defaultTriggerEl: HTMLElement | null = null;
+            if (trigger && trigger.value) {
+                defaultTriggerEl = trigger.value.$el;
+            }
+
             let triggerInstance = paramTrigger ? paramTrigger : defaultTriggerEl;
             if (isShow.value) {
                 // 如果点击的地方不在下拉内部
@@ -96,7 +101,7 @@ export default defineComponent({
                 }
             } else {
                 // 如果点击的地方在 trigger 内部
-                if (triggerInstance && triggerInstance.$el.contains(e.target)) {
+                if (triggerInstance && triggerInstance.contains(e.target as Node | null)) {
                     console.log(e);
                     console.log(paramTrigger);
                     showEl(triggerInstance);
@@ -107,7 +112,6 @@ export default defineComponent({
         const documentEventSetup = documentEvent.bind(document, null);
 
         onMounted(() => {
-            console.log(context);
             nextTick(() => {
                 if (props.trigger) {
                     document.addEventListener('click', documentEventSetup);
@@ -129,10 +133,14 @@ export default defineComponent({
         };
     },
     mounted() {
-        if (this.$parent && this.$parent.$parent && !this.$props.trigger) {
-            this.parent = this.$parent;
-            document.addEventListener('click', this.documentEventAsChildren);
-        }
+        this.$nextTick(() => {
+            if (!this.$props.trigger) {
+                this.parent = (this.$parent && this.$parent.$el.nodeType !== 3)
+                    ? this.$parent.$el : this.$el.parentElement;
+                document.addEventListener('click', this.documentEventAsChildren);
+            }
+        });
+
     },
     unmounted() {
         if (this.$parent && this.$parent.$parent && !this.$props.trigger) {

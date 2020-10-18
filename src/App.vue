@@ -142,7 +142,7 @@
     <!--    </div>-->
 
     <div style="margin-top: 20px;display: flex;justify-content: space-between;position: relative">
-        <vl-button ref="dropdown">dropdown</vl-button>
+        <vl-button shape="outline" ref="dropdown">dropdown</vl-button>
         <vl-dropdown :trigger="dropdown">
             <vl-list>
                 <vl-list-item>
@@ -196,6 +196,35 @@
                 </vl-list>
             </vl-dropdown>
         </vl-button>
+
+        <button style="display: inline-block">
+            sdssssssssssssssss
+            <vl-dropdown>
+                <vl-list>
+                    <vl-list-item>
+                        list item description
+                    </vl-list-item>
+                    <vl-list-item>
+                        <template #title>
+                            list item title
+                        </template>
+                        list item description
+                    </vl-list-item>
+                    <vl-list-item>
+                        <template #title>
+                            list item title
+                        </template>
+                        list item description
+                        <template #extra>
+                            list item extra
+                        </template>
+                    </vl-list-item>
+                    <vl-list-item>
+                    </vl-list-item>
+                </vl-list>
+            </vl-dropdown>
+        </button>
+
 
     </div>
 
