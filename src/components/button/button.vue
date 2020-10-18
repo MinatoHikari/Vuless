@@ -20,11 +20,11 @@ export default defineComponent({
     setup(props) {
         const ComputedClass = computed(() => {
             let result: string[] = []
-            result.push(`vl-button-${props.shape}`)
+            result.push(props.shape ? `vl-button-${props.shape}` : '')
 
             if (props.disabled) {
                 result.push('vl-button-disabled')
-            } else {
+            } else if (props.color) {
                 result.push(`vl-button-${props.color}`)
             }
             return result
@@ -52,5 +52,5 @@ export default defineComponent({
 })
 </script>
 
-<style lang="stylus" src="./button.styl" scoped/>
+<style lang="stylus" src="./button.styl" />
 

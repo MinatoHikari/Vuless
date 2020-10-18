@@ -1,5 +1,34 @@
 <template>
     <img alt="Vue logo" src="./assets/logo.png">
+
+    <div style="margin-top: 20px">
+        <vl-button ref="dropdown2">dropdown</vl-button>
+        <vl-dropdown :trigger="dropdown2">
+            <vl-list>
+                <vl-list-item>
+                    list item description
+                </vl-list-item>
+                <vl-list-item>
+                    <template #title>
+                        list item title
+                    </template>
+                    list item description
+                </vl-list-item>
+                <vl-list-item>
+                    <template #title>
+                        list item title
+                    </template>
+                    list item description
+                    <template #extra>
+                        list item extra
+                    </template>
+                </vl-list-item>
+                <vl-list-item>
+                </vl-list-item>
+            </vl-list>
+        </vl-dropdown>
+    </div>
+
     <div>
         <vl-button @click="onclick" style="margin-right: 10px">button</vl-button>
         <vl-button color="primary" @click="onclick" style="margin-right: 10px">button</vl-button>
@@ -62,47 +91,137 @@
         <vl-tag style="margin-right: 10px" type="hollow" color="primary"><span>bilibili</span></vl-tag>
     </div>
 
-    <div style="margin-top: 20px">
-        <vl-list>
-            <vl-list-item>
-                list item description
-            </vl-list-item>
-            <vl-list-item>
-                <template #title>
-                    list item title
-                </template>
-                list item description
-            </vl-list-item>
-            <vl-list-item>
-                <template #title>
-                    list item title
-                </template>
-                list item description
-                <template #extra>
-                    list item extra
-                </template>
-            </vl-list-item>
-            <vl-list-item>
-            </vl-list-item>
-        </vl-list>
+    <!--    <div style="margin-top: 20px">-->
+    <!--        <vl-list>-->
+    <!--            <vl-list-item>-->
+    <!--                list item description-->
+    <!--            </vl-list-item>-->
+    <!--            <vl-list-item>-->
+    <!--                <template #title>-->
+    <!--                    list item title-->
+    <!--                </template>-->
+    <!--                list item description-->
+    <!--            </vl-list-item>-->
+    <!--            <vl-list-item>-->
+    <!--                <template #title>-->
+    <!--                    list item title-->
+    <!--                </template>-->
+    <!--                list item description-->
+    <!--                <template #extra>-->
+    <!--                    list item extra-->
+    <!--                </template>-->
+    <!--            </vl-list-item>-->
+    <!--            <vl-list-item>-->
+    <!--            </vl-list-item>-->
+    <!--        </vl-list>-->
+    <!--    </div>-->
+
+    <!--    <div style="margin-top: 20px">-->
+    <!--        <vl-list>-->
+    <!--            <vl-list-item>-->
+    <!--                list item description-->
+    <!--            </vl-list-item>-->
+    <!--            <vl-list-item>-->
+    <!--                <template #title>-->
+    <!--                    list item title-->
+    <!--                </template>-->
+    <!--                list item description-->
+    <!--            </vl-list-item>-->
+    <!--            <vl-list-item>-->
+    <!--                <template #title>-->
+    <!--                    list item title-->
+    <!--                </template>-->
+    <!--                list item description-->
+    <!--                <template #extra>-->
+    <!--                    list item extra-->
+    <!--                </template>-->
+    <!--            </vl-list-item>-->
+    <!--            <vl-list-item>-->
+    <!--            </vl-list-item>-->
+    <!--        </vl-list>-->
+    <!--    </div>-->
+
+    <div style="margin-top: 20px;display: flex;justify-content: space-between;position: relative">
+        <vl-button ref="dropdown">dropdown</vl-button>
+        <vl-dropdown :trigger="dropdown">
+            <vl-list>
+                <vl-list-item>
+                    list item description
+                </vl-list-item>
+                <vl-list-item>
+                    <template #title>
+                        list item title
+                    </template>
+                    list item description
+                </vl-list-item>
+                <vl-list-item>
+                    <template #title>
+                        list item title
+                    </template>
+                    list item description
+                    <template #extra>
+                        list item extra
+                    </template>
+                </vl-list-item>
+                <vl-list-item>
+                </vl-list-item>
+            </vl-list>
+        </vl-dropdown>
+        <vl-button ref="dropdown3">
+            <span>
+                dropdown
+            </span>
+            <vl-dropdown>
+                <vl-list>
+                    <vl-list-item>
+                        list item description
+                    </vl-list-item>
+                    <vl-list-item>
+                        <template #title>
+                            list item title
+                        </template>
+                        list item description
+                    </vl-list-item>
+                    <vl-list-item>
+                        <template #title>
+                            list item title
+                        </template>
+                        list item description
+                        <template #extra>
+                            list item extra
+                        </template>
+                    </vl-list-item>
+                    <vl-list-item>
+                    </vl-list-item>
+                </vl-list>
+            </vl-dropdown>
+        </vl-button>
+
     </div>
 
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, ref } from 'vue';
 
 export default defineComponent({
     name: 'App',
     components: {},
     setup() {
         const onclick = (e: MouseEvent) => {
-            console.log(e)
-        }
+            console.log(e);
+        };
+
+        const dropdown = ref();
+        const dropdown2 = ref();
+        const dropdown3 = ref();
+
         return {
-            onclick
-        }
-    }
+            onclick,
+            dropdown,
+            dropdown2, dropdown3
+        };
+    },
 });
 </script>
 

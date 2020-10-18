@@ -10,7 +10,7 @@ export default defineComponent({
     },
     setup(props, { slots }) {
         console.log(props)
-
+        
         const classes = computed(() => {
             const result: string[] = []
             result.push(`vl-tag`)
