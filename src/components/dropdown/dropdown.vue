@@ -1,6 +1,7 @@
 <template>
     <teleport to="body">
-        <div ref="vlDropdown" :style="defaultStyle" v-if="isShow" class="vl-dropdown">
+        <div ref="vlDropdown" @mouseleave="handleMouseLeaveDropdown"
+             :style="defaultStyle" v-if="isShow" class="vl-dropdown">
             <slot></slot>
         </div>
     </teleport>
@@ -23,6 +24,7 @@ import {
     Teleport,
 } from "vue";
 import { useTeleportElementPosition } from "@/utils/useTeleportElementOffset";
+import { useEvents } from '@/utils/useEvents';
 
 interface DefaultStyle {
     top?: string | number,
@@ -41,6 +43,10 @@ export default defineComponent({
         trigger: {
             type: Object as PropType<ComponentPublicInstance>
         },
+        event: {
+            type: String,
+            default: 'click'
+        }
     },
     data() {
         return {
@@ -59,6 +65,8 @@ export default defineComponent({
         const isShow = ref(false);
 
         const vlDropdown = ref();
+
+        const events = useEvents();
 
         const setOffsetTop = async (trigger: HTMLElement, dropdown: HTMLElement) => {
             const { top, left, height } = useTeleportElementPosition(trigger, dropdown);
@@ -87,13 +95,16 @@ export default defineComponent({
             }, 500);
         };
 
-        const documentEvent = (paramTrigger: HTMLElement | null, e: MouseEvent,) => {
+        const getTriggerEl = (paramTrigger: HTMLElement | null) => {
             let defaultTriggerEl: HTMLElement | null = null;
             if (trigger && trigger.value) {
                 defaultTriggerEl = trigger.value.$el;
             }
+            return paramTrigger ? paramTrigger : defaultTriggerEl;
+        };
 
-            let triggerInstance = paramTrigger ? paramTrigger : defaultTriggerEl;
+        const handleClick = (paramTrigger: HTMLElement | null, e: MouseEvent) => {
+            let triggerEl = getTriggerEl(paramTrigger);
             if (isShow.value) {
                 // 如果点击的地方不在下拉内部
                 if (vlDropdown.value && !vlDropdown.value.contains(e.target)) {
@@ -101,35 +112,67 @@ export default defineComponent({
                 }
             } else {
                 // 如果点击的地方在 trigger 内部
-                if (triggerInstance && triggerInstance.contains(e.target as Node | null)) {
-                    console.log(e);
-                    console.log(paramTrigger);
-                    showEl(triggerInstance);
+                if (triggerEl && triggerEl.contains(e.target as Node | null)) {
+                    showEl(triggerEl);
                 }
             }
         };
 
-        const documentEventSetup = documentEvent.bind(document, null);
+        const handleMouseEnter = (paramTrigger: HTMLElement | null, e: MouseEvent) => {
+            let triggerEl = getTriggerEl(paramTrigger);
+            if (triggerEl)
+                showEl(triggerEl);
+        };
+
+        const handleMouseLeave = (paramTrigger: HTMLElement | null, e: MouseEvent) => {
+            // let triggerEl = getTriggerEl(paramTrigger);
+            // 如果鼠标离开 trigger 时目标元素不是下拉控件则关闭
+            if (vlDropdown.value && !vlDropdown.value.contains(e.relatedTarget)) {
+                hideEl();
+            }
+        };
+
+        const documentEventSetupClick = handleClick.bind(document, null);
+        const documentEventSetupMouseEnter = handleMouseEnter.bind(document, null);
+        const documentEventSetupMouseLeave = handleMouseLeave.bind(document, null);
 
         onMounted(() => {
             nextTick(() => {
                 if (props.trigger) {
-                    document.addEventListener('click', documentEventSetup);
+                    if (props.event === 'click') {
+                        document.addEventListener(events.clickE, documentEventSetupClick);
+                    }
+                    if (props.event === 'hover') {
+                        props.trigger.$el.addEventListener(events.mouseEnterE, documentEventSetupMouseEnter);
+                        props.trigger.$el.addEventListener(events.mouseLeaveE, documentEventSetupMouseLeave);
+                    }
                 }
             });
         });
 
         onUnmounted(() => {
-            document.removeEventListener('click', documentEventSetup);
+            if (props.event === 'click') {
+                document.removeEventListener('click', documentEventSetupClick);
+            }
+            if (props.event === 'hover') {
+                if (props.trigger) {
+                    props.trigger.$el.removeEventListener(events.mouseEnterE, documentEventSetupMouseEnter);
+                    props.trigger.$el.removeEventListener(events.mouseLeaveE, documentEventSetupMouseLeave);
+                }
+            }
         });
 
         return {
             defaultStyle,
             vlDropdown,
             isShow,
+            events,
+            getTriggerEl,
             showEl,
             hideEl,
-            documentEvent,
+            handleClick,
+            handleMouseEnter,
+            handleMouseLeave,
         };
     },
     mounted() {
@@ -137,19 +180,54 @@ export default defineComponent({
             if (!this.$props.trigger) {
                 this.parent = (this.$parent && this.$parent.$el.nodeType !== 3)
                     ? this.$parent.$el : this.$el.parentElement;
-                document.addEventListener('click', this.documentEventAsChildren);
+                if (this.$props.event === 'click') {
+                    document.addEventListener(this.events.clickE, this.handleClickAsChildren);
+                }
+                if (this.$props.event === 'hover') {
+                    if (this.parent) {
+                        this.parent.addEventListener(this.events.mouseEnterE, this.handleMouseEnterAsChildren);
+                        this.parent.addEventListener(this.events.mouseLeaveE, this.handleMouseLeaveAsChildren);
+                    }
+                }
             }
         });
 
     },
     unmounted() {
         if (this.$parent && this.$parent.$parent && !this.$props.trigger) {
-            document.removeEventListener('click', this.documentEventAsChildren);
+            if (this.$props.event === 'click') {
+                document.removeEventListener(this.events.clickE, this.handleClickAsChildren);
+            }
+            if (this.$props.event === 'hover') {
+                if (this.parent) {
+                    this.parent.removeEventListener(this.events.mouseEnterE, this.handleMouseEnterAsChildren);
+                    this.parent.removeEventListener(this.events.mouseLeaveE, this.handleMouseLeaveAsChildren);
+                }
+            }
         }
     },
     methods: {
-        documentEventAsChildren(e: MouseEvent) {
-            this.documentEvent(this.parent, e);
+        handleClickAsChildren(e: MouseEvent) {
+            this.handleClick(this.parent, e);
+        },
+        handleMouseEnterAsChildren(e: MouseEvent) {
+            this.handleMouseEnter(this.parent, e);
+        },
+        handleMouseLeaveAsChildren(e: MouseEvent) {
+            this.handleMouseLeave(this.parent, e);
+        },
+        handleMouseLeaveDropdown(e: MouseEvent) {
+            if (this.$props.event === 'hover') {
+                let triggerEl: HTMLElement | null = null;
+                if (this.$props.trigger) {
+                    triggerEl = this.getTriggerEl(null);
+                } else if (this.parent) {
+                    triggerEl = this.getTriggerEl(this.parent);
+                }
+                // 如果移出控件时目标元素不是trigger,隐藏控件
+                if (triggerEl && !triggerEl.contains(e.relatedTarget as Node | null))
+                    this.hideEl();
+            }
         },
     }
 });

@@ -143,7 +143,7 @@
 
     <div style="margin-top: 20px;display: flex;justify-content: space-between;position: relative">
         <vl-button shape="outline" ref="dropdown">dropdown</vl-button>
-        <vl-dropdown :trigger="dropdown">
+        <vl-dropdown event="hover" :trigger="dropdown">
             <vl-list>
                 <vl-list-item>
                     list item description
@@ -197,9 +197,9 @@
             </vl-dropdown>
         </vl-button>
 
-        <button style="display: inline-block">
+        <button  style="display: inline-block">
             sdssssssssssssssss
-            <vl-dropdown>
+            <vl-dropdown event="hover">
                 <vl-list>
                     <vl-list-item>
                         list item description
