@@ -91,55 +91,55 @@
         <vl-tag style="margin-right: 10px" type="hollow" color="primary"><span>bilibili</span></vl-tag>
     </div>
 
-    <!--    <div style="margin-top: 20px">-->
-    <!--        <vl-list>-->
-    <!--            <vl-list-item>-->
-    <!--                list item description-->
-    <!--            </vl-list-item>-->
-    <!--            <vl-list-item>-->
-    <!--                <template #title>-->
-    <!--                    list item title-->
-    <!--                </template>-->
-    <!--                list item description-->
-    <!--            </vl-list-item>-->
-    <!--            <vl-list-item>-->
-    <!--                <template #title>-->
-    <!--                    list item title-->
-    <!--                </template>-->
-    <!--                list item description-->
-    <!--                <template #extra>-->
-    <!--                    list item extra-->
-    <!--                </template>-->
-    <!--            </vl-list-item>-->
-    <!--            <vl-list-item>-->
-    <!--            </vl-list-item>-->
-    <!--        </vl-list>-->
-    <!--    </div>-->
+        <div style="margin-top: 20px">
+            <vl-list>
+                <vl-list-item>
+                    list item description
+                </vl-list-item>
+                <vl-list-item>
+                    <template #title>
+                        list item title
+                    </template>
+                    list item description
+                </vl-list-item>
+                <vl-list-item>
+                    <template #title>
+                        list item title
+                    </template>
+                    list item description
+                    <template #extra>
+                        list item extra
+                    </template>
+                </vl-list-item>
+                <vl-list-item>
+                </vl-list-item>
+            </vl-list>
+        </div>
 
-    <!--    <div style="margin-top: 20px">-->
-    <!--        <vl-list>-->
-    <!--            <vl-list-item>-->
-    <!--                list item description-->
-    <!--            </vl-list-item>-->
-    <!--            <vl-list-item>-->
-    <!--                <template #title>-->
-    <!--                    list item title-->
-    <!--                </template>-->
-    <!--                list item description-->
-    <!--            </vl-list-item>-->
-    <!--            <vl-list-item>-->
-    <!--                <template #title>-->
-    <!--                    list item title-->
-    <!--                </template>-->
-    <!--                list item description-->
-    <!--                <template #extra>-->
-    <!--                    list item extra-->
-    <!--                </template>-->
-    <!--            </vl-list-item>-->
-    <!--            <vl-list-item>-->
-    <!--            </vl-list-item>-->
-    <!--        </vl-list>-->
-    <!--    </div>-->
+        <div style="margin-top: 20px">
+            <vl-list>
+                <vl-list-item>
+                    list item description
+                </vl-list-item>
+                <vl-list-item>
+                    <template #title>
+                        list item title
+                    </template>
+                    list item description
+                </vl-list-item>
+                <vl-list-item>
+                    <template #title>
+                        list item title
+                    </template>
+                    list item description
+                    <template #extra>
+                        list item extra
+                    </template>
+                </vl-list-item>
+                <vl-list-item>
+                </vl-list-item>
+            </vl-list>
+        </div>
 
     <div style="margin-top: 20px;display: flex;justify-content: space-between;position: relative">
         <vl-button shape="outline" ref="dropdown">dropdown</vl-button>

@@ -33,7 +33,9 @@ export const useTeleportElementPosition: (trigger: HTMLElement, el: HTMLElement)
         // dropDownY = dy;
     }
 
-    if (scrollTop + triggerY + dropDownHeight >= document.documentElement.scrollHeight) {
+    // console.log(scrollTop + triggerY + dropDownHeight);
+    // console.log(document.body.scrollHeight);
+    if (scrollTop + triggerY + dropDownHeight >= document.body.offsetHeight) {
         top = top = scrollTop + triggerY - dropDownHeight;
         if (top < 0) {
             top = 0;
@@ -43,7 +45,7 @@ export const useTeleportElementPosition: (trigger: HTMLElement, el: HTMLElement)
         top = scrollTop + triggerY + triggerHeight;
     }
 
-    if (scrollLeft + triggerX + dropDownWidth >= document.documentElement.scrollWidth) {
+    if (scrollLeft + triggerX + dropDownWidth >= document.documentElement.offsetWidth) {
         left = document.documentElement.scrollWidth - dropDownWidth;
     } else {
         left = scrollLeft + triggerX;
