@@ -27,12 +27,15 @@ interface DefaultStyle {
     top?: string | number,
     left?: string | number,
     maxHeight: string | number,
+    maxWidth: string | number,
     opacity: number,
 }
 
 interface Data {
     parent: null | HTMLElement
 }
+
+type Event = 'click' | 'rClick' | 'hover'
 
 export default defineComponent({
     name: "vl-dropdown",
@@ -41,7 +44,7 @@ export default defineComponent({
             type: Object as PropType<ComponentPublicInstance>
         },
         event: {
-            type: String,
+            type: String as PropType<Event>,
             default: 'click'
         }
     },
@@ -54,7 +57,8 @@ export default defineComponent({
 
         const defaultStyle = reactive({
             opacity: 0,
-            maxHeight: "100%"
+            maxHeight: "100%",
+            maxWidth: "100%"
         }) as DefaultStyle;
 
         const { trigger } = toRefs(props);
@@ -65,21 +69,36 @@ export default defineComponent({
 
         const events = useEvents();
 
-        const setOffsetTop = async (trigger: HTMLElement, dropdown: HTMLElement) => {
-            const { top, left, height } = useTeleportElementPosition(trigger, dropdown);
+        let isFirstShow = true;
+        let originWidth = 0;
+
+        const getOriginWidth = () => {
+            if (isFirstShow) {
+                isFirstShow = false;
+                console.log("origin:", vlDropdown.value.offsetWidth);
+                return vlDropdown.value.offsetWidth;
+            }
+        };
+
+        const setOffset = async (trigger: HTMLElement, dropdown: HTMLElement, event?: MouseEvent) => {
+            originWidth = getOriginWidth();
+            const { top, left, height, width } = useTeleportElementPosition(trigger, dropdown, event, originWidth);
             // const { top, left, height } = useTeleportElementPosition(trigger, vlDropdown.value as HTMLElement);
             defaultStyle.top = `${top}px`;
             defaultStyle.left = `${left}px`;
             if (height !== 0) {
                 defaultStyle.maxHeight = `${height}px`;
             }
+            if (width !== 0) {
+                defaultStyle.maxWidth = `${width}px`;
+            }
         };
 
-        const showEl = (trigger: HTMLElement, dropdown?: HTMLElement) => {
+        const showEl = (trigger: HTMLElement, dropdown?: HTMLElement, event?: MouseEvent) => {
             isShow.value = true;
             nextTick(() => {
                 let dropdownEl = dropdown ? dropdown : vlDropdown.value;
-                setOffsetTop(trigger, dropdownEl).then(() => {
+                setOffset(trigger, dropdownEl, event).then(() => {
                     defaultStyle.opacity = 1;
                 });
             });
@@ -88,8 +107,9 @@ export default defineComponent({
         const hideEl = () => {
             defaultStyle.opacity = 0;
             setTimeout(() => {
+                defaultStyle.maxWidth = "100%";
                 isShow.value = false;
-            }, 500);
+            }, 300);
         };
 
         const getTriggerEl = (paramTrigger: HTMLElement | null) => {
@@ -108,9 +128,11 @@ export default defineComponent({
                     hideEl();
                 }
             } else {
-                // 如果点击的地方在 trigger 内部
-                if (triggerEl && triggerEl.contains(e.target as Node | null)) {
-                    showEl(triggerEl);
+                if (props.event !== 'rClick') {
+                    // 如果点击的地方在 trigger 内部
+                    if (triggerEl && triggerEl.contains(e.target as Node | null)) {
+                        showEl(triggerEl);
+                    }
                 }
             }
         };
@@ -129,32 +151,78 @@ export default defineComponent({
             }
         };
 
+        const handleRightClick = (paramTrigger: HTMLElement | null, e: MouseEvent) => {
+            let triggerEl = getTriggerEl(paramTrigger);
+            if (isShow.value) {
+                // 如果点击的地方不在下拉内部 隐藏控件
+                if (vlDropdown.value && !vlDropdown.value.contains(e.target)) {
+                    hideEl();
+                }
+                // 如果点击的地方在 trigger 内部 屏蔽右键默认事件并且动画结束后显示控件
+                if (triggerEl && triggerEl.contains(e.target as Node | null)) {
+                    e.preventDefault();
+                }
+                setTimeout(() => {
+                    if (triggerEl && triggerEl.contains(e.target as Node | null)) {
+                        showEl(triggerEl, undefined, e);
+                    }
+                }, 300);
+
+            } else {
+                if (triggerEl && triggerEl.contains(e.target as Node | null)) {
+                    e.preventDefault();
+                    showEl(triggerEl, undefined, e);
+                }
+            }
+        };
+
         const documentEventSetupClick = handleClick.bind(document, null);
         const documentEventSetupMouseEnter = handleMouseEnter.bind(document, null);
         const documentEventSetupMouseLeave = handleMouseLeave.bind(document, null);
+        const documentEventSetupRightClick = handleRightClick.bind(document, null);
 
         onMounted(() => {
             nextTick(() => {
                 if (props.trigger) {
-                    if (props.event === 'click') {
-                        document.addEventListener(events.clickE, documentEventSetupClick);
-                    }
-                    if (props.event === 'hover') {
-                        props.trigger.$el.addEventListener(events.mouseEnterE, documentEventSetupMouseEnter);
-                        props.trigger.$el.addEventListener(events.mouseLeaveE, documentEventSetupMouseLeave);
+                    switch (props.event) {
+                        case 'click': {
+                            document.addEventListener(events.clickE, documentEventSetupClick);
+                            break;
+                        }
+                        case 'hover': {
+                            if (props.trigger) {
+                                props.trigger.$el.addEventListener(events.mouseEnterE, documentEventSetupMouseEnter);
+                                props.trigger.$el.addEventListener(events.mouseLeaveE, documentEventSetupMouseLeave);
+                            }
+                            break;
+                        }
+                        case 'rClick': {
+                            document.addEventListener(events.rightClickE, documentEventSetupRightClick);
+                            document.addEventListener(events.clickE, documentEventSetupClick);
+                            break;
+                        }
                     }
                 }
             });
         });
 
         onUnmounted(() => {
-            if (props.event === 'click') {
-                document.removeEventListener('click', documentEventSetupClick);
-            }
-            if (props.event === 'hover') {
-                if (props.trigger) {
-                    props.trigger.$el.removeEventListener(events.mouseEnterE, documentEventSetupMouseEnter);
-                    props.trigger.$el.removeEventListener(events.mouseLeaveE, documentEventSetupMouseLeave);
+            switch (props.event) {
+                case 'click': {
+                    document.removeEventListener('click', documentEventSetupClick);
+                    break;
+                }
+                case 'hover': {
+                    if (props.trigger) {
+                        props.trigger.$el.removeEventListener(events.mouseEnterE, documentEventSetupMouseEnter);
+                        props.trigger.$el.removeEventListener(events.mouseLeaveE, documentEventSetupMouseLeave);
+                    }
+                    break;
+                }
+                case 'rClick': {
+                    document.removeEventListener(events.rightClickE, documentEventSetupRightClick);
+                    document.removeEventListener(events.clickE, documentEventSetupClick);
+                    break;
                 }
             }
         });
@@ -170,6 +238,7 @@ export default defineComponent({
             handleClick,
             handleMouseEnter,
             handleMouseLeave,
+            handleRightClick
         };
     },
     mounted() {
@@ -177,13 +246,22 @@ export default defineComponent({
             if (!this.$props.trigger) {
                 this.parent = (this.$parent && this.$parent.$el.nodeType !== 3)
                     ? this.$parent.$el : this.$el.parentElement;
-                if (this.$props.event === 'click') {
-                    document.addEventListener(this.events.clickE, this.handleClickAsChildren);
-                }
-                if (this.$props.event === 'hover') {
-                    if (this.parent) {
-                        this.parent.addEventListener(this.events.mouseEnterE, this.handleMouseEnterAsChildren);
-                        this.parent.addEventListener(this.events.mouseLeaveE, this.handleMouseLeaveAsChildren);
+                switch (this.$props.event) {
+                    case 'click': {
+                        document.addEventListener(this.events.clickE, this.handleClickAsChildren);
+                        break;
+                    }
+                    case 'hover': {
+                        if (this.parent) {
+                            this.parent.addEventListener(this.events.mouseEnterE, this.handleMouseEnterAsChildren);
+                            this.parent.addEventListener(this.events.mouseLeaveE, this.handleMouseLeaveAsChildren);
+                        }
+                        break;
+                    }
+                    case 'rClick': {
+                        document.addEventListener(this.events.rightClickE, this.handleRightClickAsChildren);
+                        document.addEventListener(this.events.clickE, this.handleClickAsChildren);
+                        break;
                     }
                 }
             }
@@ -192,13 +270,22 @@ export default defineComponent({
     },
     unmounted() {
         if (this.$parent && this.$parent.$parent && !this.$props.trigger) {
-            if (this.$props.event === 'click') {
-                document.removeEventListener(this.events.clickE, this.handleClickAsChildren);
-            }
-            if (this.$props.event === 'hover') {
-                if (this.parent) {
-                    this.parent.removeEventListener(this.events.mouseEnterE, this.handleMouseEnterAsChildren);
-                    this.parent.removeEventListener(this.events.mouseLeaveE, this.handleMouseLeaveAsChildren);
+            switch (this.$props.event) {
+                case 'click': {
+                    document.removeEventListener(this.events.clickE, this.handleClickAsChildren);
+                    break;
+                }
+                case 'hover': {
+                    if (this.parent) {
+                        this.parent.removeEventListener(this.events.mouseEnterE, this.handleMouseEnterAsChildren);
+                        this.parent.removeEventListener(this.events.mouseLeaveE, this.handleMouseLeaveAsChildren);
+                    }
+                    break;
+                }
+                case 'rClick': {
+                    document.removeEventListener(this.events.rightClickE, this.handleRightClickAsChildren);
+                    document.removeEventListener(this.events.clickE, this.handleClickAsChildren);
+                    break;
                 }
             }
         }
@@ -212,6 +299,9 @@ export default defineComponent({
         },
         handleMouseLeaveAsChildren(e: MouseEvent) {
             this.handleMouseLeave(this.parent, e);
+        },
+        handleRightClickAsChildren(e: MouseEvent) {
+            this.handleRightClick(this.parent, e);
         },
         handleMouseLeaveDropdown(e: MouseEvent) {
             if (this.$props.event === 'hover') {

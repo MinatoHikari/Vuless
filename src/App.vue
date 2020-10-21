@@ -27,6 +27,86 @@
                 </vl-list-item>
             </vl-list>
         </vl-dropdown>
+
+        <vl-button shape="outline" ref="dropdown333">dropdown</vl-button>
+        <vl-dropdown event="hover" :trigger="dropdown333">
+            <vl-list>
+                <vl-list-item>
+                    list item description
+                </vl-list-item>
+                <vl-list-item>
+                    <template #title>
+                        list item title
+                    </template>
+                    list item description
+                </vl-list-item>
+                <vl-list-item>
+                    <template #title>
+                        list item title
+                    </template>
+                    list item description
+                    <template #extra>
+                        list item extra
+                    </template>
+                </vl-list-item>
+                <vl-list-item>
+                </vl-list-item>
+            </vl-list>
+        </vl-dropdown>
+
+        <vl-button shape="outline" ref="dropdown3333">dropdown</vl-button>
+        <vl-dropdown event="rClick" :trigger="dropdown3333">
+            <vl-list>
+                <vl-list-item>
+                    list item description
+                </vl-list-item>
+                <vl-list-item>
+                    <template #title>
+                        list item title
+                    </template>
+                    list item description
+                </vl-list-item>
+                <vl-list-item>
+                    <template #title>
+                        list item title
+                    </template>
+                    list item description
+                    <template #extra>
+                        list item extra
+                    </template>
+                </vl-list-item>
+                <vl-list-item>
+                </vl-list-item>
+            </vl-list>
+        </vl-dropdown>
+
+        <button style="display: inline-block">
+            sdssssssssssssssss
+            <vl-dropdown event="rClick">
+                <vl-list>
+                    <vl-list-item>
+                        list item description
+                    </vl-list-item>
+                    <vl-list-item>
+                        <template #title>
+                            list item title
+                        </template>
+                        list item description
+                    </vl-list-item>
+                    <vl-list-item>
+                        <template #title>
+                            list item title
+                        </template>
+                        list item description
+                        <template #extra>
+                            list item extra
+                        </template>
+                    </vl-list-item>
+                    <vl-list-item>
+                    </vl-list-item>
+                </vl-list>
+            </vl-dropdown>
+        </button>
     </div>
 
     <div>
@@ -91,59 +171,59 @@
         <vl-tag style="margin-right: 10px" type="hollow" color="primary"><span>bilibili</span></vl-tag>
     </div>
 
-        <div style="margin-top: 20px">
-            <vl-list>
-                <vl-list-item>
-                    list item description
-                </vl-list-item>
-                <vl-list-item>
-                    <template #title>
-                        list item title
-                    </template>
-                    list item description
-                </vl-list-item>
-                <vl-list-item>
-                    <template #title>
-                        list item title
-                    </template>
-                    list item description
-                    <template #extra>
-                        list item extra
-                    </template>
-                </vl-list-item>
-                <vl-list-item>
-                </vl-list-item>
-            </vl-list>
-        </div>
+    <div style="margin-top: 20px">
+        <vl-list>
+            <vl-list-item>
+                list item description
+            </vl-list-item>
+            <vl-list-item>
+                <template #title>
+                    list item title
+                </template>
+                list item description
+            </vl-list-item>
+            <vl-list-item>
+                <template #title>
+                    list item title
+                </template>
+                list item description
+                <template #extra>
+                    list item extra
+                </template>
+            </vl-list-item>
+            <vl-list-item>
+            </vl-list-item>
+        </vl-list>
+    </div>
 
-        <div style="margin-top: 20px">
-            <vl-list>
-                <vl-list-item>
-                    list item description
-                </vl-list-item>
-                <vl-list-item>
-                    <template #title>
-                        list item title
-                    </template>
-                    list item description
-                </vl-list-item>
-                <vl-list-item>
-                    <template #title>
-                        list item title
-                    </template>
-                    list item description
-                    <template #extra>
-                        list item extra
-                    </template>
-                </vl-list-item>
-                <vl-list-item>
-                </vl-list-item>
-            </vl-list>
-        </div>
+    <div style="margin-top: 20px">
+        <vl-list>
+            <vl-list-item>
+                list item description
+            </vl-list-item>
+            <vl-list-item>
+                <template #title>
+                    list item title
+                </template>
+                list item description
+            </vl-list-item>
+            <vl-list-item>
+                <template #title>
+                    list item title
+                </template>
+                list item description
+                <template #extra>
+                    list item extra
+                </template>
+            </vl-list-item>
+            <vl-list-item>
+            </vl-list-item>
+        </vl-list>
+    </div>
 
     <div style="margin-top: 20px;display: flex;justify-content: space-between;position: relative">
         <vl-button shape="outline" ref="dropdown">dropdown</vl-button>
-        <vl-dropdown event="hover" :trigger="dropdown">
+        <vl-dropdown event="rClick" :trigger="dropdown">
             <vl-list>
                 <vl-list-item>
                     list item description
@@ -197,9 +277,9 @@
             </vl-dropdown>
         </vl-button>
 
-        <button  style="display: inline-block">
+        <button style="display: inline-block">
             sdssssssssssssssss
-            <vl-dropdown event="hover">
+            <vl-dropdown event="rClick">
                 <vl-list>
                     <vl-list-item>
                         list item description
@@ -244,11 +324,13 @@ export default defineComponent({
         const dropdown = ref();
         const dropdown2 = ref();
         const dropdown3 = ref();
+        const dropdown333 = ref();
+        const dropdown3333 = ref();
 
         return {
             onclick,
             dropdown,
-            dropdown2, dropdown3
+            dropdown2, dropdown3, dropdown333,dropdown3333
         };
     },
 });
