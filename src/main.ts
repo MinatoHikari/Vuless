@@ -7,6 +7,7 @@ import tag from './components/tag/tag.vue'
 import list from './components/list/list.vue'
 import listItem from './components/list/list-item/list-item.vue'
 import dropdown from './components/dropdown/dropdown.vue'
+import container from './components/container/container.vue'
 
 const app = createApp(App)
 
@@ -16,5 +17,6 @@ app.component(tag.name, tag)
 app.component(list.name, list)
 app.component(dropdown.name, dropdown)
 app.component(listItem.name, listItem)
+app.component(container.name, container)
 
 app.mount('#app')

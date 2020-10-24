@@ -308,10 +308,22 @@
 
     </div>
 
+    <vl-container type="grid" :grid="gridConfig">
+        <div>container</div>
+        <div>container</div>
+        <div>container</div>
+        <div>
+            <div>container</div>
+            <div>container</div>
+            <div>container</div>
+        </div>
+    </vl-container>
+
 </template>
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
+import { Grid } from "@/components/container/container.vue";
 
 export default defineComponent({
     name: 'App',
@@ -327,10 +339,18 @@ export default defineComponent({
         const dropdown333 = ref();
         const dropdown3333 = ref();
 
+        const gridConfig: Grid = {
+            columns: {
+                repeat: 3,
+                template: ["100px", "2fr", [10, 80]],
+            },
+        };
+
         return {
             onclick,
             dropdown,
-            dropdown2, dropdown3, dropdown333,dropdown3333
+            dropdown2, dropdown3, dropdown333, dropdown3333,
+            gridConfig
         };
     },
 });
