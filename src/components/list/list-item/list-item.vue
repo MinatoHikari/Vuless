@@ -1,6 +1,6 @@
 <script lang="tsx">
 import { defineComponent } from 'vue';
-import getSlot from "@/utils/getSlot";
+import { getSlot } from "@/utils/tools";
 
 export default defineComponent({
     name: "vl-list-item",
@@ -10,12 +10,12 @@ export default defineComponent({
             slots.title
                 ? <div class="vl-list-item-title">{getSlot(slots, 'title')}</div>
                 : false
-        )
+        );
         const Extra = () => (
             slots.extra
                 ? <div>{getSlot(slots, 'extra')}</div>
                 : false
-        )
+        );
         return () => (
             <div class="vl-list-item">
                 <div>
@@ -26,9 +26,9 @@ export default defineComponent({
                 </div>
                 {Extra()}
             </div>
-        )
+        );
     }
-})
+});
 </script>
 
 <style lang="stylus" src="../list.styl"/>

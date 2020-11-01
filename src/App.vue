@@ -309,13 +309,13 @@
     </div>
 
     <vl-container type="grid" :grid="gridConfig">
-        <div>container</div>
-        <div>container</div>
-        <div>container</div>
+        <div style="grid-column-start: 1;grid-column-end: 2">1</div>
+        <div style="grid-column-start: 1;grid-column-end: 2">2</div>
+        <div>3</div>
         <div>
-            <div>container</div>
-            <div>container</div>
-            <div>container</div>
+            <div>4</div>
+            <div>4</div>
+            <div>4</div>
         </div>
     </vl-container>
 
@@ -341,9 +341,11 @@ export default defineComponent({
 
         const gridConfig: Grid = {
             columns: {
-                repeat: 3,
-                template: ["100px", "2fr", [10, 80]],
+                template: [[100, "30%"], [200, "70%"]],
             },
+            area: [["a", "a"], ["b", "b"]],
+            flow: "row dense",
+            gap: [20, "10px"]
         };
 
         return {

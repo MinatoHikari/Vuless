@@ -1,6 +1,6 @@
 <script lang="tsx">
 import { defineComponent } from 'vue';
-import getSlot from "@/utils/getSlot";
+import { getSlot } from "@/utils/tools";
 
 export default defineComponent({
     name: "vl-list",
