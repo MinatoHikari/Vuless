@@ -342,10 +342,13 @@ export default defineComponent({
         const gridConfig: Grid = {
             columns: {
                 template: [[100, "30%"], [200, "70%"]],
+                autoTemplate: [[100, 200], "50%"]
             },
             area: [["a", "a"], ["b", "b"]],
             flow: "row dense",
-            gap: [20, "10px"]
+            gap: [20, 0],
+            placeItems: ['end', 'center'],
+            placeContent: ['end', 'start']
         };
 
         return {
