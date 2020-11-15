@@ -12,3 +12,13 @@ export function getStrOrCssStr(obj: string | number, unit?: "px" | "em" | "rem" 
     unit = unit ? unit : "px";
     return typeof obj === "number" ? `${obj}${unit}` : obj;
 }
+
+let prevTime: number = Date.now();
+
+export function throttle(func: (...args: any) => any, time: number) {
+    const nowTime = Date.now();
+    if (nowTime - prevTime > time) {
+        func();
+        prevTime = nowTime;
+    }
+}

@@ -308,16 +308,45 @@
 
     </div>
 
-    <vl-container type="grid" :grid="gridConfig">
-        <div style="grid-column-start: 1;grid-column-end: 2">1</div>
-        <div style="grid-column-start: 1;grid-column-end: 2">2</div>
+    <vl-container :type="containerType" :grid="gridConfig">
+        <vl-container-item :grid-column="['span 2']" :grid-row="['span 1']" area="c" :place="['end','start']">
+            1
+        </vl-container-item>
+        <vl-container-item>2</vl-container-item>
         <div>3</div>
         <div>
             <div>4</div>
             <div>4</div>
             <div>4</div>
         </div>
+        <vl-button @click="changeType">changeType</vl-button>
     </vl-container>
+
+    <div>
+        <vl-carousel :data="carouselData">
+            <template #item-template="{item}">
+                <div>{{ item.name }}</div>
+                <div>{{ item.name }}</div>
+                <div>{{ item.name }}</div>
+                <div>{{ item.name }}</div>
+                <div style="padding-bottom: 4rem">{{ item.name + item.key }}</div>
+            </template>
+        </vl-carousel>
+        <vl-carousel :data="carouselData" :interval="500">
+            <template #item-template="{item}">
+                <div>{{ item.name }}</div>
+                <div>{{ item.name }}</div>
+                <div>{{ item.name }}</div>
+                <div>{{ item.name }}</div>
+                <div>{{ item.name + item.key }}</div>
+            </template>
+            <template #prev="{prev,classes}">
+                <div :class="classes" @click="prev">prev</div>
+            </template>
+        </vl-carousel>
+
+        <vl-icon name="500px"></vl-icon>
+    </div>
 
 </template>
 
@@ -339,19 +368,38 @@ export default defineComponent({
         const dropdown333 = ref();
         const dropdown3333 = ref();
 
+        const containerType = ref("flex");
+
+        const changeType = () => {
+            if (containerType.value === "flex") {
+                containerType.value = "grid";
+            } else if (containerType.value === "grid") {
+                containerType.value = "flex";
+            }
+        };
+
         const gridConfig: Grid = {
             columns: {
                 template: [[100, "30%"], [200, "70%"]],
                 autoTemplate: [[100, 200], "50%"]
             },
-            area: [["a", "a"], ["b", "b"]],
+            area: [["a", "a"], ["b", "b"], ["c", "c"]],
             flow: "row dense",
             gap: [20, 0],
             placeItems: ['end', 'center'],
             placeContent: ['end', 'start']
         };
 
+        const carouselData = [
+            { name: "1", src: "a" },
+            { name: "2", src: "b" },
+            { name: "3", src: "c" }
+        ];
+
         return {
+            carouselData,
+            containerType,
+            changeType,
             onclick,
             dropdown,
             dropdown2, dropdown3, dropdown333, dropdown3333,

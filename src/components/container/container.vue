@@ -1,5 +1,5 @@
 <script lang="tsx">
-import { defineComponent, PropType, reactive } from "vue";
+import { defineComponent, PropType, reactive, provide, ref, Ref, watchEffect } from "vue";
 import { getSlot, getStrOrCssStr } from '@/utils/tools';
 
 export type LayoutType = "flex" | "grid"
@@ -25,6 +25,15 @@ export interface ColumnsAndRows {
     gap?: string | number
 }
 
+export interface ContainerGridStyles {
+    gridTemplateColumns?: string,
+    gridTemplateRows?: string,
+    gridTemplateAreas?: string,
+    gap?: string,
+    gridAutoColumns?: string,
+    gridAutoRows?: string
+}
+
 const defaultGrid = {
     gridTemplateColumns: "repeat(1,100%)",
     gridTemplateRows: "",
@@ -47,10 +56,13 @@ export default defineComponent({
     },
     setup(props, { slots }) {
 
-        const classes: string[] = reactive([]);
+        let classes: string[] = reactive([]);
 
-        classes.push(`vl-container-${props.type}`);
-        let gridStyle = reactive({ ...defaultGrid });
+        const typeRef = ref(props.type);
+        provide("layoutType", typeRef);
+
+        let typeClass = `vl-container-${props.type}`;
+        let gridStyle: ContainerGridStyles = reactive({});
 
         const getTemplate = (template: (string | number | TwinCssArray)[],) => {
             let result = "";
@@ -117,20 +129,34 @@ export default defineComponent({
             }
         };
 
-        if (props.type === 'grid' && props.grid) {
-            gridStyle.gridTemplateColumns = props.grid.columns ? getGridColumnsAndRows(props.grid.columns) : gridStyle.gridTemplateColumns;
-            gridStyle.gridTemplateRows = props.grid.rows ? getGridColumnsAndRows(props.grid.rows) : "";
-            gridStyle.gridTemplateAreas = props.grid.area ? getGridArea(props.grid.area) : "";
-            gridStyle.gridAutoColumns = props.grid.columns ? getGridAutoColumnsAndRows(props.grid.columns) : "";
-            gridStyle.gridAutoRows = props.grid.rows ? getGridAutoColumnsAndRows(props.grid.rows) : "";
-            if (props.grid.flow) classes.push(`vl-container-grid-flow-${getGridFlowClassName(props.grid.flow)}`);
-            if (props.grid.placeItems) getPlaceItems(props.grid.placeItems);
-            if (props.grid.placeContent) getPlaceContent(props.grid.placeContent);
-            gridStyle.gap = props.grid.gap ? getGap(props.grid.gap) : "";
-        }
+        const getAllStyles = () => {
+            classes = [];
+            gridStyle = {};
+            if (props.type === 'grid' && props.grid) {
+                gridStyle = { ...defaultGrid };
+                gridStyle.gridTemplateColumns = props.grid.columns ? getGridColumnsAndRows(props.grid.columns) : gridStyle.gridTemplateColumns;
+                gridStyle.gridTemplateRows = props.grid.rows ? getGridColumnsAndRows(props.grid.rows) : "";
+                gridStyle.gridTemplateAreas = props.grid.area ? getGridArea(props.grid.area) : "";
+                gridStyle.gridAutoColumns = props.grid.columns ? getGridAutoColumnsAndRows(props.grid.columns) : "";
+                gridStyle.gridAutoRows = props.grid.rows ? getGridAutoColumnsAndRows(props.grid.rows) : "";
+                if (props.grid.flow) classes.push(`vl-container-grid-flow-${getGridFlowClassName(props.grid.flow)}`);
+                if (props.grid.placeItems) getPlaceItems(props.grid.placeItems);
+                if (props.grid.placeContent) getPlaceContent(props.grid.placeContent);
+                gridStyle.gap = props.grid.gap ? getGap(props.grid.gap) : "";
+            }
+        };
+
+        getAllStyles();
+
+        const watchGridProp = watchEffect(() => {
+            const type = props.type;
+            typeClass = `vl-container-${type}`;
+            getAllStyles();
+            typeRef.value = type;
+        });
 
         return () => (
-            <div class={classes} style={{ ...gridStyle }}>
+            <div class={[typeClass, ...classes]} style={{ ...gridStyle }}>
                 {getSlot(slots)}
             </div>
         );

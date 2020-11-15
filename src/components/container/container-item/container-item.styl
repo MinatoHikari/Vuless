@@ -1,0 +1,8 @@
+@import "../../../styles/base.styl"
+
+for place in start end center stretch
+    .vl-container-item-grid-place-{place}
+        place-self place
+    for columnPlace in start end center stretch
+        .vl-container-item-grid-place-{place}-{columnPlace}
+            place-self place columnPlace
