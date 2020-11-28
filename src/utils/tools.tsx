@@ -22,3 +22,16 @@ export function throttle(func: (...args: any) => any, time: number) {
         prevTime = nowTime;
     }
 }
+
+export class Debounce {
+    public timeout: number = 0;
+
+    debounce(func: (...args: any) => any | void, duration: number) {
+        if (this.timeout) {
+            clearTimeout(this.timeout);
+            this.timeout = setTimeout(func, duration);
+        } else {
+            this.timeout = setTimeout(func, duration);
+        }
+    }
+}

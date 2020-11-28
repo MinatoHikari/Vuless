@@ -345,13 +345,14 @@
             </template>
         </vl-carousel>
 
+        <vl-button @click="pushCarouselItem" style="margin-right: 10px">button</vl-button>
         <vl-icon name="500px"></vl-icon>
     </div>
 
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue';
+import { defineComponent, ref,reactive } from 'vue';
 import { Grid } from "@/components/container/container.vue";
 
 export default defineComponent({
@@ -390,11 +391,15 @@ export default defineComponent({
             placeContent: ['end', 'start']
         };
 
-        const carouselData = [
-            { name: "1", src: "a" },
-            { name: "2", src: "b" },
-            { name: "3", src: "c" }
-        ];
+        const carouselData:Record<string, any>[] = reactive([
+            // { name: "1", src: "a" },
+            // { name: "2", src: "b" },
+            // { name: "3", src: "c" }
+        ]);
+
+        const pushCarouselItem = () => {
+            carouselData.push({name:carouselData.length + 1,src:carouselData.length + 1})
+        }
 
         return {
             carouselData,
@@ -403,7 +408,8 @@ export default defineComponent({
             onclick,
             dropdown,
             dropdown2, dropdown3, dropdown333, dropdown3333,
-            gridConfig
+            gridConfig,
+            pushCarouselItem
         };
     },
 });
