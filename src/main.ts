@@ -12,17 +12,19 @@ import containerItem from './components/container/container-item/container-item.
 import carousel from './components/carousel/carousel.vue';
 import icon from './components/icon/icon.vue';
 
+import Message from "./components/message/message";
+
 const app = createApp(App);
 
-app.component(button.name, button);
-app.component(card.name, card);
-app.component(tag.name, tag);
-app.component(list.name, list);
-app.component(dropdown.name, dropdown);
-app.component(listItem.name, listItem);
-app.component(container.name, container);
-app.component(containerItem.name, containerItem);
-app.component(carousel.name, carousel);
-app.component(icon.name, icon);
-
-app.mount('#app');
+app.component(button.name, button)
+    .component(card.name, card)
+    .component(tag.name, tag)
+    .component(list.name, list)
+    .component(dropdown.name, dropdown)
+    .component(listItem.name, listItem)
+    .component(container.name, container)
+    .component(containerItem.name, containerItem)
+    .component(carousel.name, carousel)
+    .component(icon.name, icon)
+    .use(Message)
+    .mount('#app');

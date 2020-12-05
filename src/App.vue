@@ -332,36 +332,55 @@
                 <div style="padding-bottom: 4rem">{{ item.name + item.key }}</div>
             </template>
         </vl-carousel>
-        <vl-carousel :data="carouselData" :interval="500">
-            <template #item-template="{item}">
-                <div>{{ item.name }}</div>
-                <div>{{ item.name }}</div>
-                <div>{{ item.name }}</div>
-                <div>{{ item.name }}</div>
-                <div>{{ item.name + item.key }}</div>
-            </template>
-            <template #prev="{prev,classes}">
-                <div :class="classes" @click="prev">prev</div>
-            </template>
-        </vl-carousel>
+        <!--        <vl-carousel :data="carouselData" :interval="500">-->
+        <!--            <template #item-template="{item}">-->
+        <!--                <div>{{ item.name }}</div>-->
+        <!--                <div>{{ item.name }}</div>-->
+        <!--                <div>{{ item.name }}</div>-->
+        <!--                <div>{{ item.name }}</div>-->
+        <!--                <div>{{ item.name + item.key }}</div>-->
+        <!--            </template>-->
+        <!--            <template #prev="{prev,classes}">-->
+        <!--                <div :class="classes" @click="prev">prev</div>-->
+        <!--            </template>-->
+        <!--        </vl-carousel>-->
 
         <vl-button @click="pushCarouselItem" style="margin-right: 10px">button</vl-button>
         <vl-icon name="500px"></vl-icon>
     </div>
 
+    <vl-button @click="showMessage">message</vl-button>
+
+    <transition name="vl-fade">
+        <vl-button v-if="showvlbtn">vl-fade</vl-button>
+    </transition>
+
+<!--    <div id="list-complete-demo" class="demo">-->
+<!--        <button @click="add">Add</button>-->
+<!--        <button @click="remove">Remove</button>-->
+<!--        <transition-group name="message" tag="p" move-class="message-move">-->
+<!--    <span v-for="item in items" :key="item" class="list-complete-item">-->
+<!--      {{ item }}-->
+<!--    </span>-->
+<!--        </transition-group>-->
+<!--    </div>-->
 </template>
 
 <script lang="ts">
-import { defineComponent, ref,reactive } from 'vue';
+import { defineComponent, ref, reactive, getCurrentInstance, onMounted, nextTick } from 'vue';
 import { Grid } from "@/components/container/container.vue";
 
 export default defineComponent({
     name: 'App',
     components: {},
+    mounted() {
+        console.log(this);
+    },
     setup() {
         const onclick = (e: MouseEvent) => {
             console.log(e);
         };
+
 
         const dropdown = ref();
         const dropdown2 = ref();
@@ -391,25 +410,39 @@ export default defineComponent({
             placeContent: ['end', 'start']
         };
 
-        const carouselData:Record<string, any>[] = reactive([
+        const carouselData: Record<string, any>[] = reactive([
             // { name: "1", src: "a" },
             // { name: "2", src: "b" },
             // { name: "3", src: "c" }
         ]);
 
         const pushCarouselItem = () => {
-            carouselData.push({name:carouselData.length + 1,src:carouselData.length + 1})
-        }
+            carouselData.push({ name: carouselData.length + 1, src: carouselData.length + 1 });
+        };
+
+        const instance = getCurrentInstance();
+
+        const showMessage = () => {
+            showvlbtn.value = !showvlbtn.value
+            console.log(instance);
+            instance?.proxy?.$vlMessage.create({
+                message:"vl-message-test",
+            })
+        };
+
+        const showvlbtn = ref(false)
 
         return {
             carouselData,
             containerType,
             changeType,
             onclick,
+            showvlbtn,
             dropdown,
             dropdown2, dropdown3, dropdown333, dropdown3333,
             gridConfig,
-            pushCarouselItem
+            pushCarouselItem,
+            showMessage
         };
     },
 });

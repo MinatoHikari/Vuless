@@ -103,12 +103,17 @@ export default defineComponent({
 
         const controllerIndex = computed(() => {
             let result = currentIndex.value - 1;
-            if (currentIndex.value === sliderList.value.length - 1) {
+            const lastIndex = sliderList.value.length - 1
+            if (currentIndex.value === lastIndex) {
+                // 从最后一个向右移，控制器激活第一个
                 result = 0;
             }
             if (currentIndex.value === 0) {
-                result = sliderList.value.length == 0 ? 0 : sliderList.value.length - 2;
+                // 从第一个向左移，控制器激活最后一个
+                // 控制器的下标比轮播列表的下标少两个，返回控制器的最后一个下标
+                result = sliderList.value.length === 0 ? 0 : lastIndex - 2;
             }
+            console.log(result);
             return result;
         });
 
@@ -219,7 +224,6 @@ export default defineComponent({
 
         onMounted(() => {
             window.addEventListener('resize', innerOffsetResize);
-            console.dir(inner.value);
             nextTick(() => {
                 if (inner.value) {
                     distance.value = inner.value.offsetWidth;

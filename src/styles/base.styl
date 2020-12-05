@@ -1,4 +1,3 @@
-
 $color-default = rgba(0, 0, 0, 0.65)
 $color-primary = #41b883
 $color-flamingo = #ff5722
@@ -20,3 +19,28 @@ getColor(color, amount = 0)
         return lighten($color-primary, amount)
     else if color == flamingo
         return lighten($color-flamingo, amount)
+
+.vl-fade-enter-active, .vl-fade-leave-active
+    transtion: all .5s ease
+
+.vl-fade-enter-from, .vl-fade-leave-to
+    opacity 0
+    transform translateY(-30px)
+
+.message-enter-from, .message-leave-to
+    /* .message-leave-active for below version 2.1.8 */
+    opacity: 0;
+    transform: translateY(-150%);
+
+.message-leave-active
+    position: absolute;
+
+//display inline-block
+
+.message-move
+    transition: transform 1s;
+
+
+.message-enter-move, .message-leave-move
+    transition: all .5s;
+
