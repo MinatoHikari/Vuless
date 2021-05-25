@@ -7,11 +7,6 @@ export type GridColumnAndRow = [(string | number)] | TwinCssArray
 export type GridPlaces = [PlaceItems, PlaceItems] | [PlaceItems]
 
 export interface ContainerItemGridStyles {
-    gridColumn?: string
-    gridRow?: string
-}
-
-export interface ContainerItemGridStyles {
     gridColumn?: string,
     gridRow?: string,
     gridArea?: string,

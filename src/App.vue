@@ -355,15 +355,15 @@
         <vl-button v-if="showvlbtn">vl-fade</vl-button>
     </transition>
 
-<!--    <div id="list-complete-demo" class="demo">-->
-<!--        <button @click="add">Add</button>-->
-<!--        <button @click="remove">Remove</button>-->
-<!--        <transition-group name="message" tag="p" move-class="message-move">-->
-<!--    <span v-for="item in items" :key="item" class="list-complete-item">-->
-<!--      {{ item }}-->
-<!--    </span>-->
-<!--        </transition-group>-->
-<!--    </div>-->
+    <!--    <div id="list-complete-demo" class="demo">-->
+    <!--        <button @click="add">Add</button>-->
+    <!--        <button @click="remove">Remove</button>-->
+    <!--        <transition-group name="message" tag="p" move-class="message-move">-->
+    <!--    <span v-for="item in items" :key="item" class="list-complete-item">-->
+    <!--      {{ item }}-->
+    <!--    </span>-->
+    <!--        </transition-group>-->
+    <!--    </div>-->
 </template>
 
 <script lang="ts">
@@ -410,7 +410,7 @@ export default defineComponent({
             placeContent: ['end', 'start']
         };
 
-        const carouselData: Record<string, any>[] = reactive([
+        const carouselData: Record<'name' | 'src', any>[] = reactive([
             // { name: "1", src: "a" },
             // { name: "2", src: "b" },
             // { name: "3", src: "c" }
@@ -423,14 +423,14 @@ export default defineComponent({
         const instance = getCurrentInstance();
 
         const showMessage = () => {
-            showvlbtn.value = !showvlbtn.value
+            showvlbtn.value = !showvlbtn.value;
             console.log(instance);
             instance?.proxy?.$vlMessage.create({
-                message:"vl-message-test",
-            })
+                message: "vl-message-test",
+            });
         };
 
-        const showvlbtn = ref(false)
+        const showvlbtn = ref(false);
 
         return {
             carouselData,

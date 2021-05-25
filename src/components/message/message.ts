@@ -13,14 +13,13 @@ export interface Configs extends CreateConfigs {
 }
 
 let isMounted = false;
-let timeout: number = 0;
+// let timeout: number = 0;
 let index = 0;
-const messageList: Configs[] = [];
 let messageContainer: null | App<Element> = null;
 let rootComponent: ComponentPublicInstance;
 
 const createMsg = (configs?: CreateConfigs) => {
-    if (timeout) clearTimeout(timeout);
+    // if (timeout) clearTimeout(timeout);
     const time: number = configs && configs.duration ? configs.duration : 2000;
     index++;
 
@@ -50,7 +49,7 @@ const createMsg = (configs?: CreateConfigs) => {
                 return h(MessageList, {
                     source: this.$data.messageList, onMessageStatesChange: (index: number) => {
                         console.log("message-close:", index);
-                        let arr = this.$data.messageList;
+                        const arr = this.$data.messageList;
                         for (let i = 0; i < arr.length; i++) {
                             if (arr[i].key === index) {
                                 arr.splice(i, 1);

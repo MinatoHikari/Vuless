@@ -51,8 +51,6 @@ import Icon from "@/components/icon/icon.vue";
 import { throttle, Debounce } from "@/utils/tools";
 import { version } from "@typescript-eslint/parser";
 
-export type DataArray<T> = Array<T>
-
 export interface SliderGroupStyle {
     width?: string
     transform?: string
@@ -71,8 +69,8 @@ export default defineComponent({
     },
     props: {
         data: {
-            type: Array as PropType<DataArray<Record<string, any>>>,
-            default: []
+            type: Array as PropType<Array<Record<string & 'key', any>>>,
+            default: () => []
         },
         interval: {
             type: Boolean,
@@ -94,7 +92,7 @@ export default defineComponent({
             let arr = [...props.data];
             arr.unshift(props.data[props.data.length - 1 < 0 ? 0 : props.data.length - 1]);
             arr.push(props.data[0]);
-            const newArr: any[] = [];
+            const newArr: Array<Record<string & 'key', any>> = [];
             for (let i = 0; i < arr.length; i++) {
                 newArr.push({ ...arr[i], key: i });
             }
@@ -103,7 +101,7 @@ export default defineComponent({
 
         const controllerIndex = computed(() => {
             let result = currentIndex.value - 1;
-            const lastIndex = sliderList.value.length - 1
+            const lastIndex = sliderList.value.length - 1;
             if (currentIndex.value === lastIndex) {
                 // 从最后一个向右移，控制器激活第一个
                 result = 0;
@@ -152,8 +150,8 @@ export default defineComponent({
         };
 
         const useDistance = () => {
-            return inner.value?.offsetWidth ? inner.value?.offsetWidth : 0
-        }
+            return inner.value?.offsetWidth ? inner.value?.offsetWidth : 0;
+        };
 
         const slideTo = (index: number) => {
             sliderGroupStyle.transition = "all .5s";

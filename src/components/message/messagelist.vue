@@ -24,7 +24,7 @@ export default defineComponent({
     props: {
         source: {
             type: Array as PropType<Configs[]>,
-            default: []
+            default: () => []
         },
         onMessageStatesChange: {
             type: Function

@@ -41,26 +41,27 @@ export default defineComponent({
         // console.log(slots.default ? slots.default() : '')
 
         const showHeader = computed(() => {
-            return 'header' in slots || props.title
-        })
+            return 'header' in slots || props.title;
+        });
 
         const showActions = computed(() => {
-            return 'actions' in slots
-        })
+            return 'actions' in slots;
+        });
 
         const cardContainerClass = reactive({
             'vl-card-border': props.showBorder,
             'vl-card-hover': props.shadow === 'hover',
             'vl-card-shadow': props.shadow === 'always'
-        })
+        });
 
         return {
             cardContainerClass,
             showHeader,
             showActions
-        }
-    },
-})
+        };
+
+    }
+});
 </script>
 
 <style lang="stylus" src="./card.styl"/>
