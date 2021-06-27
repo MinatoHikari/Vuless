@@ -32,5 +32,5 @@ export default defineComponent({
 })
 </script>
 
-<style lang="stylus" src="./tag.styl"/>
+<style lang="scss" src="./tag.scss"/>
 

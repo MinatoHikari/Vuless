@@ -1,0 +1,63 @@
+$themeColors: (
+    default: rgba(0, 0, 0, 0.65),
+    primary: #41b883,
+    flamingo: #ff5722,
+    bismark: #557280
+);
+
+:root {
+    @each $name, $color in $themeColors {
+        --color-#{$name}: #{$color};
+        --color-#{$name}-1: #{lighten($color,7)};
+        --color-#{$name}-2: #{lighten($color,14)};
+        --color-#{$name}-3: #{lighten($color,21)};
+        --color-#{$name}-4: #{lighten($color,28)};
+        --color-#{$name}-5: #{lighten($color,35)};
+    }
+
+    --color-border: rgba(0, 0, 0, 0.12);
+
+    --font-size-title: 18px;
+    --font-size-normal: 15px;
+    --font-size-sm: 12px;
+
+    --vl-padding-md: 15px;
+    --vl-margin-md: 12px;
+    --vl-margin-lg: 20px;
+
+    --vl-box-shadow-container: 0 2px 8px rgba(0, 0, 0, 0.09);
+}
+
+@function --color($color-name) {
+    @return var(--color-#{$color-name});
+}
+
+.vl-fade-enter-active,
+.vl-fade-leave-active {
+    transition: all 0.5s ease;
+}
+
+.vl-fade-enter-from,
+.vl-fade-leave-to {
+    opacity: 0;
+    transform: translateY(-30px);
+}
+
+.message-enter-from,
+.message-leave-to {
+    opacity: 0;
+    transform: translateY(-150%);
+}
+
+.message-leave-active {
+    position: absolute;
+}
+
+.message-move {
+    transition: transform 1s;
+}
+
+.message-enter-move,
+.message-leave-move {
+    transition: all 0.5s;
+}

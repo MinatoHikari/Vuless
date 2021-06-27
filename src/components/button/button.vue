@@ -1,5 +1,5 @@
 <template>
-    <button :class="viewClasses" :type="type" class="vl-button" @click="onClick">
+    <button :class="viewClasses" v-bind="$attrs" class="vl-button" @click="onClick">
         <span>
             <slot></slot>
         </span>
@@ -7,50 +7,27 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed, reactive } from 'vue';
+import { defineComponent } from 'vue';
+import { propsConfig, useClasses } from './useProps';
+import { useEvents } from '@/components/button/useEvents';
 
 export default defineComponent({
-    name: "vl-button",
-    props: {
-        shape: String,
-        disabled: Boolean,
-        color: String,
-        type: String
+    name: 'vl-button',
+    props: propsConfig,
+    emits: {
+        click: null
     },
-    setup(props) {
-        const ComputedClass = computed(() => {
-            let result: string[] = []
-            result.push(props.shape ? `vl-button-${props.shape}` : '')
+    setup(props, { emit }) {
+        const { viewClasses } = useClasses(props);
 
-            if (props.disabled) {
-                result.push('vl-button-disabled')
-            } else if (props.color) {
-                result.push(`vl-button-${props.color}`)
-            }
-            return result
-        })
-
-        const viewClasses = reactive([...ComputedClass.value])
-
-        const onClick = () => {
-            if (props.disabled || props.shape === "link") {
-                return
-            }
-            viewClasses.push('vl-button-active')
-            const index = viewClasses.length - 1
-            setTimeout(() => {
-                viewClasses.splice(index, 1)
-            }, 200)
-        }
+        const { onClick } = useEvents(props, viewClasses);
 
         return {
-            ComputedClass,
             viewClasses,
             onClick
-        }
+        };
     }
-})
+});
 </script>
 
-<style lang="stylus" src="./button.styl" />
-
+<style lang="scss" src="./button.scss" />

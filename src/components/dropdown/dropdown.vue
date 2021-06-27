@@ -266,7 +266,6 @@ export default defineComponent({
                 }
             }
         });
-
     },
     unmounted() {
         if (this.$parent && this.$parent.$parent && !this.$props.trigger) {
@@ -320,5 +319,5 @@ export default defineComponent({
 });
 </script>
 
-<style lang="stylus" src="./dropdown.styl"/>
+<style lang="scss" src="./dropdown.scss"/>
 

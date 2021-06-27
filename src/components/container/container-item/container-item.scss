@@ -1,0 +1,12 @@
+@import '../../../styles/base.scss';
+
+@each $place in (start end center stretch) {
+    .vl-container-item-grid-place-#{$place} {
+        place-self: $place;
+    }
+    @each $columnPlace in (start end center stretch) {
+        .vl-container-item-grid-place-#{$place}-#{$columnPlace} {
+            place-self: $place $columnPlace;
+        }
+    }
+}

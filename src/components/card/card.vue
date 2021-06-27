@@ -64,4 +64,4 @@ export default defineComponent({
 });
 </script>
 
-<style lang="stylus" src="./card.styl"/>
+<style lang="scss" src="./card.scss"/>

@@ -1,0 +1,8 @@
+@import '../../styles/base.scss';
+
+.vl-dropdown {
+    position: absolute;
+    transition: opacity 0.3s ease;
+    background-color: white;
+    z-index: 1 box-shadow var(--vl-box-shadow-container);
+}

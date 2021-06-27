@@ -96,10 +96,4 @@ export default defineComponent({
 });
 </script>
 
-<!--<style vars="{ column }">-->
-<!--.vl-container-grid-item {-->
-<!--    grid-column: var(&#45;&#45;column)-->
-<!--}-->
-<!--</style>-->
-
-<style src="./container-item.styl" lang="stylus"/>
+<style src="./container-item.scss" lang="scss"/>

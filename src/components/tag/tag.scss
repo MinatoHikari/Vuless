@@ -1,0 +1,36 @@
+@import '../../styles/base.scss';
+
+.vl-tag {
+    display: inline-block;
+    font-size: var(--font-size-sm);
+    border: 1px solid var(--color-border);
+    background-color: #ddddde;
+    color: --color('default');
+    padding: 3px 7px;
+    border-radius: 3px;
+    cursor: default;
+    transition: all 0.3s;
+    opacity: 1;
+    &:hover {
+        opacity: 0.8;
+    }
+}
+
+.vl-tag-hollow {
+    background-color: --color('default');
+    color: white;
+}
+
+@each $name, $color in $themeColors {
+    .vl-tag-#{$name} {
+        color: --color('#{$name}-1');
+        border-color: --color('#{$name}-3');
+        background-color: --color('#{$name}-5');
+    }
+
+    .vl-tag-hollow.vl-tag-#{$name} {
+        background-color: --color('#{$name}');
+        border-color: --color('#{$name}');
+        color: white;
+    }
+}

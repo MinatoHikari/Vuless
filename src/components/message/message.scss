@@ -1,0 +1,18 @@
+@import '../../styles/base.scss';
+
+#vl-message-box {
+    position: fixed;
+    top: 0;
+    left: 50%;
+}
+
+.vl-message {
+    transition: all 0.5s;
+    transform: translate(-50%, 0);
+    margin-top: 10px;
+    padding: 0.6rem 1rem;
+    background-color: darkgrey;
+    box-shadow: var(--vl-box-shadow-container);
+    min-width: 150px;
+    text-align: center;
+}

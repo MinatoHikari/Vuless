@@ -31,6 +31,6 @@ export default defineComponent({
 });
 </script>
 
-<style lang="stylus" src="../list.styl"/>
+<style lang="stylus" src="../list.scss"/>
 
 

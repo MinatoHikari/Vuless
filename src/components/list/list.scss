@@ -1,0 +1,26 @@
+@import '../../styles/base.scss';
+
+.vl-list {
+    border: 1px solid var(--color-border);
+    color: --color('default');
+    font-size: var(--font-size-normal);
+}
+
+.vl-list-item {
+    display: flex;
+    justify-content: space-between;
+    padding: var(--vl-padding-md);
+    border-bottom: 1px solid var(--color-border);
+
+    &:last-child {
+        border-bottom: 0;
+    }
+}
+
+.vl-list-item-title {
+    font-weight: bold;
+    color: black;
+    font-size: var(--font-size-title);
+    margin-bottom: var(--vl-margin-md);
+    display: inline-block;
+}

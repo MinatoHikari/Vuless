@@ -49,7 +49,6 @@ import {
 } from "vue";
 import Icon from "@/components/icon/icon.vue";
 import { throttle, Debounce } from "@/utils/tools";
-import { version } from "@typescript-eslint/parser";
 
 export interface SliderGroupStyle {
     width?: string
@@ -253,5 +252,5 @@ export default defineComponent({
 });
 </script>
 
-<style src="./carousel.styl" lang="stylus"/>
+<style src="./carousel.scss" lang="scss"/>
 

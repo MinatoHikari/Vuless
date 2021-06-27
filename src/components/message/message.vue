@@ -52,5 +52,5 @@ export default defineComponent({
 });
 </script>
 
-<style src="./message.styl" lang="stylus"/>
+<style src="./message.scss" lang="scss"/>
 

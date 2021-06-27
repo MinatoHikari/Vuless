@@ -1,0 +1,103 @@
+@import '../../styles/base.scss';
+
+:root {
+    --btn-background-color-default: #efefef;
+}
+
+.vl-button {
+    border: 0;
+    //outline: none;
+    padding: 5px 15px;
+    color: --color('default');
+    box-shadow: 0 0 0 0 #b5b5b514;
+    transition: all 0.2s;
+    background-color: var(--btn-background-color-default);
+    cursor: pointer;
+    &:hover {
+        background-color: rgb(177 177 177);
+        color: #ffffff;
+    }
+}
+
+.vl-button-active {
+    box-shadow: 0 0 5px 2px rgba(197, 197, 197, 0.5);
+}
+
+.vl-button-disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+
+    &:hover {
+        background-color: var(--btn-background-color-default);
+        color: --color('default');
+    }
+}
+
+.vl-button-round {
+    border-radius: 1.5rem;
+}
+
+.vl-button-circle {
+    border-radius: 50%;
+    padding: 0;
+    width: 30px;
+    height: 30px;
+}
+
+.vl-button-outline.vl-button-active {
+    box-shadow: 0 0 5px 2px rgba(197, 197, 197, 0.3);
+}
+
+.vl-button-link {
+    background-color: transparent;
+    padding: 5px 10px;
+    &:hover {
+        background-color: transparent;
+        color: --color('default-2');
+    }
+}
+
+.vl-button-link.vl-button-disabled {
+    &:hover {
+        color: --color('default');
+    }
+}
+
+@each $name, $color in $themeColors {
+    .vl-button {
+        &-#{$name} {
+            color: white;
+            background-color: --color($name);
+            &:hover {
+                background-color: --color('#{$name}-1');
+            }
+        }
+    }
+
+    .vl-button-outline {
+        border: 1px solid --color('default');
+        background-color: transparent;
+
+        &:hover {
+            background-color: transparent;
+            border: 1px solid --color('default');
+            color: --color('default');
+            opacity: 0.7;
+        }
+
+        &.vl-button-#{$name},
+        &.vl-button-#{$name}:hover {
+            border: 1px solid --color($name);
+            color: --color($name);
+        }
+    }
+
+    .vl-button-link.vl-button-#{$name} {
+        color: --color($name);
+        background-color: transparent;
+        &:hover {
+            background-color: transparent;
+            color: --color('#{$name}-2');
+        }
+    }
+}
